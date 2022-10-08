@@ -1,0 +1,163 @@
+**  MINI BOOK PROJECT******************************************************
+**  PROPS
+    Passing property to the function <Book/>
+    Example:
+        function BookList() {
+          return (
+            <section className='booklist'>
+              <Book job ="developer"/>
+              <Book title = "random title" number = {22}/>
+            </section>
+          )
+        }
+    It shows an object (prototype: object) for each and with:
+    Property of job & the value is developer
+    Property of title and number & the value is random title and 22
+
+    **  How to Access its value?
+
+        const Book = (props) => {
+          return (
+            <article className='book'>
+              <p>{props.job}</p>
+              <p>{props.title}</p>
+            </article>
+          );
+        };
+
+**  Refactor below to an Object
+    const title = 'I Love You to the Moon and Back';
+    const author = 'Amelia Hepworth';
+    const img =
+      'https://images-na.ssl-images-amazon.com/images/I/8144Vic9C5L._AC_UL600_SR600,400_.jpg';
+
+    * Refactured
+    const firstBook = {
+        title: "I Love You to the Moon and Back",
+        author: "Amelia Hepworth",
+        img: "https://images-na.ssl-images-amazon.com/images/I/8144Vic9C5L._AC_UL600_SR600,400_.jpg"
+    }
+
+    **  How to Access the firstBook?
+        function BookList() {
+          return (
+            <section className='booklist'>
+              <Book img = {firstBook.img} title = {firstBook.title} author ={firstBook.            author}/>
+              <Book title = "random title" number = {22}/>
+            </section>
+          )
+        }
+        const Book = (props) => {
+          return (
+            <article className='book'>
+              <img src={props.img} alt='book for kids' />
+              <h4>{props.title}</h4>
+              <h6>{props.author}</h6>
+            </article>
+          );
+        };
+        ReactDOM.render(<BookList />, document.getElementById('root'))
+
+**  PROPS - DESTRUCTURING
+    Above code const Book ... desctructured
+        const Book = (props) => {
+          const {img, title, author} = props
+          return (
+            <article className='book'>
+              <img src={img} alt='book for kids' />
+              <h4>{title}</h4>
+              <h6>{author}</h6>
+            </article>
+          )
+        }
+
+    Another way to destructure:
+        const Book = {{ img, title, author }} => {
+          return (
+            <article className='book'>
+              <img src={img} alt='book for kids' />
+              <h4>{title}</h4>
+              <h6>{author}</h6>
+            </article>
+          )
+        }
+
+**  PROPS - CHILDREN
+    Example:
+    <Book
+        img={firstBook.img}
+        title={firstBook.title}
+        author={firstBook.author}>
+
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit a nam unde deserunt nesciunt quos dolorem voluptates. Temporibus, ex consectetur!</p>
+      </Book>
+
+      **  How to Access the <p> as it's children?
+          const Book = (props) => {
+            const {img, title, author, children} = props
+            // Render Area
+            return (
+              <article className='book'>
+                <img src={img} alt='book for kids' />
+                <h4>{title}</h4>
+                <h6>{author}</h6>
+                {children} // this can be place anywhere in the Render Area
+              </article>
+            )
+
+**  WHOLE PROGRAM BEFORE SIMPLIFYING THE LIST
+          import React from 'react'
+          import ReactDOM from 'react-dom'
+          import './index.css'
+
+          //  Mini Book Project
+          //  Components
+          const firstBook = {
+            title: 'I Love You to the Moon and Back',
+            author: 'Amelia Hepworth',
+            img: 'https://images-na.ssl-images-amazon.com/images/I/8144Vic9C5L.         _AC_UL600_SR600,400_.jpg',
+          }
+
+          const secondBook = {
+            title: "I'm So Glad You Were Born: Celebrating Who You Are ",
+            author: 'Ainsley Earhardt',
+            img: 'https://images-na.ssl-images-amazon.com/images/I/9193GbyIvxL.         _AC_UL600_SR600,400_.jpg',
+          }
+
+          function BookList() {
+            return (
+              <section className='booklist'>
+                <Book
+                  img={firstBook.img}
+                  title={firstBook.title}
+                  author={firstBook.author}
+                />
+
+                <Book
+                  img={secondBook.img}
+                  title={secondBook.title}
+                  author={secondBook.author}
+                />
+              </section>
+            )
+          }
+
+          // Book function
+          const Book = (props) => {
+            const { img, title, author } = props
+            // Rendering Area
+            return (
+              <article className='book'>
+                <img src={img} alt='book for kids' />
+                <h4>{title}</h4>
+                <h6>{author}</h6>
+              </article>
+            )
+          }
+
+          ReactDOM.render(<BookList />, document.getElementById('root'))
+
+**  SIMPLIFYING THE LIST INTO ARRAY
+    **  METHOD 1 - USING MAP METHOD
+
+

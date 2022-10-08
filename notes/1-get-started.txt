@@ -1,0 +1,168 @@
+**  REACT
+    *   A JavaScript library for building user interfaces. Developed by
+        Facebook in 2011 - most popular JS library for building UIs.
+
+    *   Heart of all React Applications are Components
+
+    *   Components - is essentially a piece of the UI.
+
+    *   Building applications with React, we build a bunch of independent,
+        isolated, and reusable components, and then compose them to build complex UI.  Every React application has atleast one component, which we refer as the Root Component. Root Component represents the entire application and contains other child components.
+
+    *   So every React application is essentially a tree of components.
+
+    *   Example of React Application Components for a Twitter
+        Root Component (App), under it (children) are NavBar, Profile, Trends, Feed. And then Feed includes several components like Tweet, and Tweet with Like Component and can be reuse in several pages.
+
+    *   Implementation
+        A component is typically implemented as a JS class that has some STATE and a RENDER method.  The STATE here is the data that we want to DISPLAY when the component is rendered, and the RENDER method is responsible for describing what the UI should look like.
+        The OUTPUT of this render method is a REACT ELEMENT - which is a simple plain JavaScript Object that reacts to a DOM Element.
+
+        class Tweet {
+            state = {};
+            render(){ ---> React Element (JS Obj that maps to DOM Elem)
+
+            }
+        }
+
+        React keeps a lightweight representation of the DOM in memory which we refer to as the Virtual DOM. It is cheap to create. When we change the state of a component, we get a new react element. React will then compare this element and it's children with the previous one, it figures out what has changed, and then it will update a part of the real DOM to kepp it in Sync with Virtual DOM.
+
+        DOM Element (Real DOM)
+
+        *   Building application with React unlike with vanilla JS and query we no longer have to work with the DOM API in browsers. In other words, we no longer have to write code in query or manipulate the DOM, or attach event handlers to DOM elements. Simply change the STATE of our COMPONENTS and REACT will automatically UPDATE the  DOM to match that state.  And that is exactly WHY this LIBRARY IS CALLED REACT - when the state changes, React essentially reacts to the state change and updates the DOM.
+
+        const element = document.querySelector();
+        element.classList.add();
+        element.addEventListener();
+
+**  REACT or ANGULAR?
+
+Both are similar in terms of Component Based Architecture however, Angular is a Framework or a complete solution, while React is a Library.
+
+React only takes care of rendering the view, and making sure the view is in sync with the state.  React has a very small API to learn. So building applications with React, we need to use other libraries or things like routing, or calling http services and so on.  But these are not necessarily a bad thing, because you get to choose the libraries that you prefer, as opposed to being fixed with what Angular gives you, which often breaks from one version to another.
+
+**  Installation of React App and Creating a Folder/App
+    npm i -g create-react-app
+    create-react-app appname
+
+    ---OR----
+    npx create-react-app react-app
+
+    **  This will INSTALL React as well as all the 3rd party libraries like light weight development (Development Server), building our files (Webpack), compiling our JavaScript code (Babel), as well as bunch of other tools. In Create React-App, all configuration is done.  However, customization for production environment is also available - eject by running npm run eject.
+
+    **  npm run eject - removes this tool and copies build dependencies, configuration files and scripts into the app directory. Warning! If you do this, you can't go back.
+
+**  To Start
+    cd react-app
+    npm start
+
+**  Hot Module Reloading - react app is automatically refreshing for any
+    updates done it will refresh and show immediately.
+
+**  Rendering Components
+    const element = <h1>Hello World</h1> // components like navbar etc.
+    ReactDOM.render(element, document.getElementById('root'));
+    **  Root is where to render the components (see index.html in public folder). Instead of rendering an element (<h1>hello world </h1>) we render in DOM the APP COMPONENTS. This APP Component is the root component for our application, it includes children like navitaion bar, sidebar, profile etc.
+
+**  Backend (You can use C#/ASP.NET, JavaScript/Node + Express, Firebase)
+    Firebase - a service provider by Google. You don't have to build backend from scratch, you simple create a firebase account and connect the React app to it with a few lines of code. It gets you up and running pretty quickly but it can get costly and it is not something that is adopted in most companies out there.
+
+**  JavaScript/Node + Express - use for backend services
+
+**  TERMINAL
+    pwd -   Full Pathname to Current Working directory
+    ls  -   List of Directories
+    mkdir - Create a Directory / folder
+    touch - Create a file
+    cd  -   Change Directory
+    cd .. - Navigate to Parent / One Level up
+    clear - Clear Console / Ctrl + C
+    Arrow Key Up / Down - Previous Commands
+
+**  NPM Basics
+    npm init -  creates package.json (manifest) file, list dependencies
+    npm install <package name> -- save
+        install package locally (default) and add to package.json
+        example: npm i create-react-app
+    npm i -g <pkg name> install package globally
+    npm i -D <package name> use it only in developemnt / save as it's web
+        devendencies
+
+**  Stateless Function component
+    *   rfce - shortcut for react component
+    *   Component Name - must be in PascalCase
+
+    function Greeting(){
+    //return HTML /JSX
+        return <h1>This is my first component.</h1>
+    }
+
+    *   Render the component (Greeting) to ReactDom & to save it into the root from index.html (public folder)
+    *   < > </> - self closing tag is required and a must in react in rendering
+    *   VS Code Setting - add script below to help in adding HTML in react
+        "emmet.includeLanguages": {"javascript": "javascriptreact"},
+
+**  JSX Rules
+    Always Return Elements/html - follow html symantics
+    Div / Section / Article or Fragment(<> </>)
+    Use PascalCase for html attribute - example: onClick
+    className instead of class
+    Close every element - </>
+    Formatting - adding more than 1 element add ( ) in return (<div>Hello</div>)
+
+**  Nested Components, React tools
+
+    function Greeting(){
+      return (
+        <div>
+          <Person/>
+          <Message/>
+        </div>
+      );
+    }
+
+    // Components
+    const Person = () => <h1>John Doe</h1>;
+    const Message = () => <h6>This is my message for you.</h6>
+
+**  Importing/Exporting Files - "./" means it is on the same folder
+
+**  JSX CSS (within JS/index.js) code
+    Example:
+    <h6 style = {{marginTop: '.25rem', color:"ddd", fontSize: ".75rem"}}>Amelia Hepworth</h6>
+
+**  JSX JavaScript
+    Example:
+    function BookList() {
+      return (
+        <section className='booklist'>
+          <Book />
+        </section>
+      )
+    }
+
+    const author = "Amelia Hepworth";
+    const Book = () => {
+      const title = "I Love You to the Moon and Back";
+      return (
+        <article className='book'>
+          <img
+            src='https://images-na.ssl-images-amazon.com/images/I/8144Vic9C5L.  _AC_UL600_SR600,400_.jpg'
+            alt='book for kids'
+          />
+//JSX JavaScript
+          <h4>{title.toUpperCase()}</h4> // can be invoked
+          <h6>{author}</h6>
+        </article>
+      )
+    }
+    ReactDOM.render(<BookList />, document.getElementById('root'))
+
+
+
+
+
+
+
+
+
