@@ -1,0 +1,62 @@
+**  ARROW FUNCTION ***********************************************************
+    Example-1:
+    const square = function (number){
+        return number * number;
+    }
+    ---------------------------------
+    const square = number => number * number
+    console.log(square(5)) // 25
+
+    Example-2:
+    const jobs = [
+        {id: 1, isActive: true},
+        {id: 2, isActive: true},
+        {id: 3, isActive: false}
+    ];
+    const activeJobs = jobs.filter(function(job)) {return job.isActive;};
+    ----------------------------------
+    const activeJobs = jobs.filter(job => job.isActive);
+
+**  ARROW FUNCTION and THIS *************************************************
+    Example-1:
+    const person = {
+        talk(){
+            console.log("this", this)
+        }
+    }
+    person.talk()
+    * Second this above refers to person object (talk(){})
+
+    Example-2:
+    const person = {
+        talk(){
+            setTimeout(function(){
+                console.log("this", this);
+            }, 1000)
+        }
+    };
+    person.talk()
+    *  Second this returns a Window Object only-this refers to the setTimeout or
+       callback funtion
+    ----------------------------------
+    const person = {
+        talk(){
+            let self = this;
+            setTimeout(()=>{
+                console.log("this", this);
+            },1000);
+        }
+    };
+    person.talk()
+
+**  ARRAY MAP METHOD *************************************************
+    Example-1:
+    const colors = ['red', 'green', 'blue'];
+    const items = colors.map(color =>`<li>${color}</li>`);
+    console.log(items);
+
+**  OBJECT DESTRUCTURING *************************************************
+
+
+
+

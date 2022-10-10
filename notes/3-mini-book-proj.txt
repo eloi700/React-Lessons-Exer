@@ -1,5 +1,5 @@
 **  MINI BOOK PROJECT******************************************************
-**  PROPS
+**  PROPS *****************************************************************
     Passing property to the function <Book/>
     Example:
         function BookList() {
@@ -25,7 +25,7 @@
           );
         };
 
-**  Refactor below to an Object
+**  Refactor below to an Object **************************************************
     const title = 'I Love You to the Moon and Back';
     const author = 'Amelia Hepworth';
     const img =
@@ -58,7 +58,7 @@
         };
         ReactDOM.render(<BookList />, document.getElementById('root'))
 
-**  PROPS - DESTRUCTURING
+**  PROPS - DESTRUCTURING ******************************************************
     Above code const Book ... desctructured
         const Book = (props) => {
           const {img, title, author} = props
@@ -82,7 +82,7 @@
           )
         }
 
-**  PROPS - CHILDREN
+**  PROPS - CHILDREN ***********************************************************
     Example:
     <Book
         img={firstBook.img}
@@ -105,7 +105,7 @@
               </article>
             )
 
-**  WHOLE PROGRAM BEFORE SIMPLIFYING THE LIST
+**  WHOLE CODE BEFORE SIMPLIFYING THE LIST *************************************
           import React from 'react'
           import ReactDOM from 'react-dom'
           import './index.css'
@@ -157,7 +157,139 @@
 
           ReactDOM.render(<BookList />, document.getElementById('root'))
 
-**  SIMPLIFYING THE LIST INTO ARRAY
+**  SIMPLIFYING THE LIST INTO ARRAY *********************************************
     **  METHOD 1 - USING MAP METHOD
+    Example: const names = ['john', 'peter', 'susan'];
+             const newName = names.map((name) => {
+             return <h1>{name}</>
+             });
+             console.log(newName); //3 Objects
+             // johnpetersusan
+    Example: Based on above code
+              {
+                id: 3,
+                title: "Harry Potter and the Order of the Phoenix",
+                author: 'J. K. Rowling ',
+                img: 'https://images-na.ssl-images-amazon.com/images/I/71tR2ZEgPYL.           _AC_UL600_SR600,400_.jpg',
+              },
+
+            //Make sure add KEY ID in the list to avoid error
+             function BookList() {
+               return (
+               <section className='booklist'>
+                 {books.map((book)=> {
+            // ALT - {books.map((book, index)=>)}
+            // book a param that points to above list equals
+                 return <Book key= {book.id} book={book}></Book>
+            // ALT return with Indes - key = {index}
+               })}
+               </section>
+               );
+             }
+
+             // Book function - Render Area
+             const Book = (props) => {
+               // props with an object
+               const { img, title, author } = props.book;
+               // Rendering Area
+               return (
+                 <article className='book'>
+                   <img src={img} alt='book for kids' />
+                   <h4>{title}</h4>
+                   <h6>{author}</h6>
+                 </article>
+               )
+             }
+
+    **  METHOD 2 - SPREAD METHOD
+        function BookList() {
+          return (
+          <section className='booklist'>
+            {books.map((book)=> {
+            return <Book key={book.id} {...book}></Book>
+          })}
+          </section>
+          );
+        }
+
+        // Book function - Render Area
+        const Book = (props) => {
+          const { img, title, author } = props;
+        // OR Simply
+        const Book = ({img, title, author}) => {
+
+**  EVENT BASICS **************************************************************
+    * Attribute, Event Handler (onClick, onMouseOver)
+
+    * ONCLICK EVENT
+    Option 1 - onClick (Setup as A Reference)
+    const clickHandler = () ={
+      alert('hello world');
+    }
+    <button type="button" onClick={clickHandler}>Reference Example</button>
+
+    Option 2 - onClick (Setup as Inline Function)
+    <h1 onClick={() => console.log(title)}>{title}</h1>
+
+    * Complex Example
+    const complexExample = (author) => {
+      console.log(author);
+    };
+    <button type = 'button' onClick = {() => complexExample(author)}>
+      Complex Example </button>
+
+    * ONMOUSEOVER EVENT
+      Example:
+      <article className = 'book' onMouseOver={() => {
+        console.log(title);
+      }};
+
+**  IMPORT & EXPORT STATEMENTS **************************************************
+    Example:
+    //books.js
+    export const books = [
+      {
+        id: 1,
+        title: 'I Love You to the Moon and Back',
+        author: 'Amelia Hepworth',
+        img: 'https://images-na.ssl-images-amazon.com/images/I/8144Vic9C5L. _AC_UL600_SR600,400_.jpg',
+      }
+    ]
+    //index.js
+    import { books } from './books';
+
+    **  rafce - React Arror Function Component with E7
+     *  Only one DEFAULT EXPORT per file
+
+        //Book.js (Naming of File when it is DEFAULT - First Letter CAPS)
+        import React from 'react'
+        const Book = () => {
+          return (
+            <div>Book</div>
+          )
+        }
+        export default Book
+
+        //index.js
+        import Book from './Book';
+
+    **  Export / Import within a folder (Folder is same level of index.js)
+        //  ./testing/testing
+        export let greeting = 'hello world';
+
+        //  index.js
+        import { greeting } from './testing/testing'
+
+**  FREE HOSTING
+    How to move your App from a localhost to URL?
+    netlify
+
+
+
+
+
+
+
+
 
 
