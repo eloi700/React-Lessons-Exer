@@ -18,7 +18,7 @@
     const activeJobs = jobs.filter(job => job.isActive);
 
 **  ARROW FUNCTION and THIS *************************************************
-    Example-1:
+    Example-1: this ALWAYS refers to the CURRENT OBJECT
     const person = {
         talk(){
             console.log("this", this)
@@ -49,13 +49,204 @@
     };
     person.talk()
 
-**  ARRAY MAP METHOD *************************************************
+**  ARRAY MAP METHOD ***********************************************************
     Example-1:
     const colors = ['red', 'green', 'blue'];
     const items = colors.map(color =>`<li>${color}</li>`);
     console.log(items);
 
-**  OBJECT DESTRUCTURING *************************************************
+**  OBJECT DESTRUCTURING ******************************************************
+    Example:
+    const address = {
+        street: '',
+        city: '',
+        country: ''
+    };
+    const street = address.street;
+    const street = address.city;
+    const street = address.country;
+    ----------------------------------
+    **  Desctructuring above would be:
+    const { street, city, country } = addres
+    ----------------------------------
+    **  OR Defining alias (st) to a particular property of the address object
+    const { street: st } = address
+
+**  SPREAD OPERATOR ***********************************************************
+    Example: Combination of 2 arrays
+    const first = [1, 2, 3];
+    const second = [4, 5, 6];
+    const combined = first.concat(second);
+    ----------------------------------
+    **  Using Spread Operator to Combine first and second arrays
+    const combined = [...first, ...second];
+    const combined = [...first, 'a', ...second, 'b']; // with add'l elements
+    ----------------------------------
+    **  Cloning an Array Using Spread Operator
+    const clone = [...second]; // result will be same as const second
+    ----------------------------------
+    **  Application of Spread Operator into an Object
+    const firstName = {name: 'Mosh'};
+    const position = {job: 'Developer'};
+    const applicant = {...firstName, ...position, location: 'Pennsylvania'}
+
+**  CLASSES ******************************************************************
+    Example: Creating Classes out of repeating Implementation of walk() methods
+    const person1 = {
+        name: 'Most',
+        //the method to be repeated
+        walk(){
+            console.log("walk");
+        };
+    };
+    const person2 = {
+        name: 'Most',
+        //the method to be repeated
+        walk(){
+            console.log("walk");
+        };
+    };
+    ----------------------------------
+    **  Using classes instead of repeating implementation of Methods
+        **  BLUE PRINT for Creating Person Object Using Class
+        class Person {
+            constructor(name){
+                this.name = name
+                // setting the name to the object & name received from outside
+            }
+            walk(){
+                console.log("walk");
+            };
+        };
+    ----------------------------------
+    **  Creating Person Object
+        const person = new Person('Mosh') // setting what is in the Const as Arg.
+        person.walk();
+
+**  INHERITANCE *****************************************************************
+    Example:
+    class Person {
+        constructor(name){
+            this.name = name
+            // setting the name to the object & name received from outside
+        }
+        walk(){
+            console.log("walk");
+        };
+    };
+
+    class Teacher {
+        teach(){
+            console.log("teach");
+        }
+    }
+    ----------------------------------
+    **  Using EXTENDS to Inherit Walk Method from Person Class
+        The teacher should be able to walk.
+
+        class Teacher extends Person {
+            constructor(name, degree){
+                super(name);
+                this.degree = degree;
+            }
+            teach(){
+                console.log("teach");
+            }
+        }
+        const teacher = new Teacher('Mosh', 'MSc');
+        teacher.degree; // property
+        teacher.name; // property
+        teacher.walk(); // method
+        teacher.teach(); // method
+
+**  MODULES *****************************************************************
+    Splitting a code in 1 file into multiple files - modularity. Each file is a module.
+    // person.js
+    export class Person {
+        constructor(name){
+            this.name = name
+            // setting the name to the object & name received from outside
+        }
+        walk(){
+            console.log("walk");
+        };
+    };
+    ----------------------------------
+    //teacher.js
+    import { Person } from './person';
+    export class Teacher extends Person {
+        constructor(name, degree){
+            super(name);
+            this.degree = degree;
+        }
+        teach(){
+            console.log("teach");
+        }
+    }
+    const teacher = new Teacher('Mosh', 'MSc');
+    teacher.walk(); // method
+    ----------------------------------
+    // index.js
+    import { Teacher } from './teacher';
+    teacher.teach();
+
+**  NAMED & DEFAULT EXPORTS *****************************************************
+    **  Named Exports - Exporting 1 or more objects from a given module.
+    **  Default Exports - Use if there's only a SINGLE Obj to be exported.
+    **  In JS a Class is also an Obj because JS classes are syntactic sugar over
+        constructor functions and functions are technically an object.
+
+    //index.js
+    import {Teacher, promote} from "./teacher";
+    ----------------------------------
+    //teacher.js
+    import { Person } from './person';
+
+    export function promote(){};
+
+    export class Teacher extends Person { // also an Obj in JS
+        constructor(name, degree){
+            super(name);
+            this.degree = degree;
+        }
+        teach(){
+            console.log("teach");
+        }
+    }
+    const teacher = new Teacher('Mosh', 'MSc');
+    ----------------------------------
+    **  Default Exports Example
+    //teacher.js
+    import { Person } from './person';
+
+    export default class Teacher extends Person {
+        constructor(name, degree){
+            super(name);
+            this.degree = degree;
+        }
+        teach(){
+            console.log("teach");
+        }
+    }
+    const teacher = new Teacher('Mosh', 'MSc');
+    teacher.name;
+    ----------------------------------
+    //index.js ----NOTE: There's no { } when importing the Teacher
+    import Teacher from "./teacher";
+
+    const teacher = new Teacher('Mosh', 'MSc');
+    teacher.teach();
+    ----------------------------------
+    **  Another example with a bunch of named & default Exports
+    //index.js ----NOTE: There's no { } when importing the Teacher
+    import Teacher, { promote } from "./teacher"; OR
+    import React, { Component } from 'react';
+
+
+
+
+
+
 
 
 
