@@ -283,7 +283,12 @@
 **  FREE HOSTING
     How to move your App from a localhost to URL?
     netlify
+<<<<<<< HEAD
     heroku
+=======
+
+
+>>>>>>> e7ced99b858d818bea794b49a42ade57aaf6640a
 
 
 
