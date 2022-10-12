@@ -16,6 +16,7 @@ class Counter extends Component {
       <div>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
+          // eslint-disable-next-line no-undef
           onClick={() => this.handleIncrement(product)}
           className='btn btn-secondary btn-sm rounded-pill'
         >

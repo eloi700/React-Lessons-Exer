@@ -1,0 +1,217 @@
+**  useState *************************************************************
+    It is a React Hook that lets you add a STATE VARIABLE to your component
+    Syntax:
+    const [state, setState] = useState(initialState)
+--------------------------------------------------------------------------
+    **  USAGE - Adding state to a component
+        Call useState at the top level of your component to declare one or more state variables.
+
+        import { useState } from 'react';
+
+        function MyComponent() {
+        const [age, setAge] = useState(42);
+        const [name, setName] = useState('Taylor');
+        // ...
+
+        **  Naming Convention [something, setSomething] using Array Destructuring
+        **  useState returns an array with exactly 2 items;
+        1.) The CURRENT STATE of this state variable, initially set to the
+            INITIAL STATE you provided.
+        2.) The SET FUNCTION that lets you change it to any other value in
+            response to interaction.
+            To update what's on the screen,call SET function with some next state:
+
+            function handleClick(){
+                setName('Robin')
+            }
+
+        **  Calling the SET function does not change the current state in the already executing code. It only affects what useState will return starting from the next render.
+
+        function handleClick() {
+          setName('Robin');
+          console.log(name); // Still "Taylor"!
+        }
+        ----------------------------------------------------------
+        Example-1 Counter(number)
+        The COUNT state variable holds a number. Clicking the button increments it
+        // App.js
+        import { useState } from 'react';
+
+        export default function Counter() {
+          const [count, setCount] = useState(0);
+
+          function handleClick() {
+            setCount(count + 1);
+          }
+
+          return (
+            <button onClick={handleClick}>
+              You pressed me {count} times
+            </button>
+          );
+        }
+        ----------------------------------------------------------
+        Example-2 Text Field (String)
+        The TEXT state variable holds a string. When you type, HANDLECHANGE reads the latest input value from the browser input DOM element, and calls SETTEXT to update the state. This allows you to display the current TEXT below.
+        import { useState } from 'react';
+
+        export default function MyInput() {
+          const [text, setText] = useState('hello'); //initial state
+
+          function handleChange(e) {
+            setText(e.target.value);
+          }
+
+          return (
+            <>
+              <input value={text} onChange={handleChange} />
+              <p>You typed: {text}</p>
+              <button onClick={() => setText('hello')}> //return after reset
+                Reset
+              </button>
+            </>
+          );
+        }
+        ----------------------------------------------------------
+        Example-3 Checkbox (boolean)
+        In this example, the liked state variable holds a boolean. When you click the input, setLiked updates the liked state variable with whether the browser checkbox input is checked. The liked variable is used to render the text below the checkbox.
+
+        import { useState } from 'react';
+
+        export default function MyCheckbox() {
+          const [liked, setLiked] = useState(true);
+
+          function handleChange(e) {
+            setLiked(e.target.checked);
+          }
+
+          return (
+            <>
+              <label>
+                <input type='checkbox' checked={null} onChange={handleChange} />I like
+                this
+              </label>
+              <p>You {liked ? 'liked' : "didn't like"} this.</p>
+            </>
+          );
+        }
+
+        Example-4 Form (2 Variables)
+        ----------------------------------------------------------
+        You can declare more than one state variable in the same component. Each state variable is completely independent.
+
+        import { useState } from 'react';
+
+        function Form() {
+          const [firstName, setFirstName] = useState('Taylor');
+          const [age, setAge] = useState(40);
+
+          return (
+            <>
+              <input
+                type='text'
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              <button onClick={() => setAge(age + 1)}>Increment Age</button>
+              <p>
+                Hello, {firstName}. You are {age} now.
+              </p>
+            </>
+          );
+        }
+        export default Form;
+--------------------------------------------------------------------------
+    **  UPDATING STATE BASED ON THE PREVIOUS STATE
+        Suppose the AGE is 42. This HANDLER calls SETAGE(AGE + 1) three times:
+        function handleClick(){
+          setAge(age + 1); //setAge(42 + 1)
+          setAge(age + 1); //setAge(42 + 1)
+          setAge(age + 1); //setAge(42 + 1)
+        }
+        However, after 1 click, AGE will only be 43 rather than 45.
+        Calling the SET function DOES NOT UPDATE the AGE state variable in the already running code.  So each SETAGE(AGE + 1) call becomes SETAGE(43).
+        ----------------------------------------------------------
+        **  SOLUTION: (Passing UPDATER function to SETAGE instead of NEXT state)
+        function handleClick(){
+          setAge(a => a + 1); //setAge(42 => 43)
+          setAge(a => a + 1); //setAge(43 => 44)
+          setAge(a => a + 1); //setAge(44 => 45)
+        }
+
+        **  a => a + 1 is the UPDATER FUNCTION. It takes PENDING STATE and calculates NEXT STATE. If there is no queued updates, React will store 45 as the current state in the end.
+
+        **  By convention, it's common to NAME the  PENDING STATE argument for the first letter of the state variable name, like a for age. However, you may also called it like prevAge.
+
+        Example-1 Passing the Updater Function
+        ----------------------------------------------------------
+        This example passes the updater function, so the “+5” & "+2" button works.
+
+        import { useState } from 'react';
+
+        const myComponentStyle = {
+          padding: '1rem 2rem',
+          margin: '.2rem 1rem',
+          fontSize: '1rem',
+          fontWeight: 'bold',
+        };
+
+        function Counter() {
+          const [age, setAge] = useState(40);
+
+          function increment() {
+            setAge((a) => a + 1);  // THIS IS THE DIFFERENCE (UPDATER FUNCTION)
+          }
+
+          return (
+            <>
+              <h1>Your age: {age}</h1>
+              <button
+                style={myComponentStyle}
+                onClick={() => {
+                  increment();
+                  increment();
+                  increment();
+                  increment();
+                  increment();
+                }}
+              >
+                Plus 5
+              </button>
+              <button
+                style={myComponentStyle}
+                onClick={() => {
+                  increment();
+                  increment();
+                }}
+              >
+                Plus 2
+              </button>
+            </>
+          );
+        }
+
+        export default Counter;
+
+        Example-2 Passing the Next State Directly (+5, +2 doesn't work instead 1)
+        ----------------------------------------------------------
+        ... same as above EXCEPT for below (increment function)
+          function increment() {
+            setAge(age + 1);  // THIS IS THE DIFFERENCE (NEXT STATE)
+          }
+--------------------------------------------------------------------------
+    **  UPDATING OBJECTS AND ARRAYS IN STATE
+        In React, state is considered read-only, so you should REPLACE it rather than MUTATE your existing objects.
+        **  Don't MUTATE an object in state like this:
+
+          form.firstName: 'Taylor'
+
+        **  REPLACE state with a new object
+        setForm({
+          ...form,
+          firstName; 'Taylor'
+        });
+
+        Example-1 Form (object)
+        ----------------------------------------------------------
+        In this example, the form state variable holds an object. Each input has a change handler that calls setForm with the next state of the entire form. The { ...form } spread syntax ensures that the state object is replaced rather than mutated.
