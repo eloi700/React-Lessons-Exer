@@ -49,6 +49,30 @@
     };
     person.talk()
 
+**  ARROW FUNCTION LIMITATIONS *********************************************
+    1.) Does not have its own binding to THIS and SUPER.
+    2.) Does not have arguments object.
+    3.) Not suitable for CALL, APPLY, and BIND Methods
+    4.) Can't be used as constructor
+    5.) Can't be used yield (in generators), within its body.
+    6.) Do not default this to the window scope, rather they EXECUTE in the scope they are created.
+
+    Example: Standard & Arrow Functions
+    class PersonName {
+        name = "Ella"
+
+        printName(){
+            console.log('printName:', this.name) // Ella
+        }
+        printNameArrowFn = () => {
+            console.log('printNameArrowFn:', this.name) //Ella
+        }
+    }
+
+    const myPersonName = new PersonName();
+    myPersonName.printName(); // Ella
+    myPersonName.printNameArrowFn(); // Ella (from Parent)
+
 **  ARRAY MAP METHOD ***********************************************************
     Example-1:
     const colors = ['red', 'green', 'blue'];
@@ -67,10 +91,18 @@
     const street = address.country;
     ----------------------------------
     **  Desctructuring above would be:
-    const { street, city, country } = addres
+    const { street, city, country } = address
     ----------------------------------
     **  OR Defining alias (st) to a particular property of the address object
     const { street: st } = address
+
+**  ARRAY DESTRUCTURING ******************************************************
+    Example:
+    const fruits = [undefined, 'manggo', 'apple', 'strawberry'];
+    const [firstFruit = orange, ...otherFruits] = fruits;
+
+    console.log(firstFruit); // orange
+    console.log(otherFruits); // object from manggo to strawberry
 
 **  SPREAD OPERATOR ***********************************************************
     Example: Combination of 2 arrays
@@ -90,17 +122,34 @@
     const position = {job: 'Developer'};
     const applicant = {...firstName, ...position, location: 'Pennsylvania'}
 
+**  REST PARAMETERS
+    Allows to represent an indefinite number of arguments as an Array.
+    Example:
+    function sum(...theArgs){
+        return theArgs.reduce((previous + current)=>{
+            return previous + current;
+        });
+    }
+    console.log(sum(1,2,3)); // 6
+    ----------------------------------
+    Arguments cannot use Array Functions.
+    Example:
+    function useArguments(a,b){
+        console.log(argument[1]); //returns 5
+    }
+    useArguments(1,5);
+
 **  CLASSES ******************************************************************
     Example: Creating Classes out of repeating Implementation of walk() methods
     const person1 = {
-        name: 'Most',
+        name: 'Mosh',
         //the method to be repeated
         walk(){
             console.log("walk");
         };
     };
     const person2 = {
-        name: 'Most',
+        name: 'Mosh',
         //the method to be repeated
         walk(){
             console.log("walk");
@@ -122,6 +171,16 @@
     **  Creating Person Object
         const person = new Person('Mosh') // setting what is in the Const as Arg.
         person.walk();
+
+**  CLASSES IN JS/TYPESCRIPT ***************************************************
+    CONSTRUCTOR - executed when you initialize the class
+    FUNCTIONS - the method that you can use in the class
+    PUBLIC VARIABLES - can be access when you INSTANTIATE the class
+    PRIVATE VARIABLES - can only be access inside the class
+    STATIC VARIABLES - can be called without the need to instantiate the class
+    "this" OBJECT - reference the class itself (refers within the object)
+    INHERITANCE - use "EXTENDS" to get the attributes of a parent class
+    SUPER - calling base class attributes
 
 **  INHERITANCE *****************************************************************
     Example:
@@ -158,6 +217,27 @@
         teacher.name; // property
         teacher.walk(); // method
         teacher.teach(); // method
+
+**  PROMISES & ASYNC + AWAIT ***********************************************
+    **  How JS Works?
+    1.) JS is a single threaded and has a Synchronous execution module. One command / code is being executed at a time.
+    2.) Asynchronous - codes are executed in the background and will give a way for others to be executed (e.g. setTimeout)
+    Example:
+        let mNum = 5;
+        function cN() {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(10);
+            }, 500);
+          });
+        }
+
+        async function startChange() {
+          mNum = await cN();
+          console.log(mNum); // 10
+        }
+        startChange();
+
 
 **  MODULES *****************************************************************
     Splitting a code in 1 file into multiple files - modularity. Each file is a module.
