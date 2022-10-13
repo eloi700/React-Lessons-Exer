@@ -17,8 +17,7 @@
         **  useState returns an array with exactly 2 items;
         1.) The CURRENT STATE of this state variable, initially set to the
             INITIAL STATE you provided.
-        2.) The SET FUNCTION that lets you change it to any other value in
-            response to interaction.
+        2.) The SET FUNCTION that lets you change it to any OTHER VALUE IN RESPONSE TO INTERACTION.
             To update what's on the screen,call SET function with some next state:
 
             function handleClick(){
