@@ -1,0 +1,215 @@
+**  COMPONENTS *****************************************************
+    * A component returns a set of React elements that should appear on the screen
+    * Compoennts enable you to split your UI into independent, reusable pieces
+    * Components also accepts inputs
+    * Component names must always start with a Capital Letter. These compile to React.createElement(...)
+    * Tag starts with lowercase letters (DOM tags)
+
+    **  TYPES OF COMPONENTS
+        **  Class Component
+        Example:
+        class Welcome extends Component { // React.Component - stateful component
+          render (){
+            return <h1>Hello, {this.props.name}</h1>;
+          }
+        }
+        ------------------------------------------------------------
+        **  Functional Component - Stateless
+        Example:
+        function Welcome(props){
+          return <h1>Hello, {this.props.name}</h1>;
+        }
+
+        function App(){
+          return{
+            <div>
+              <Welcome name = "Sara"/>
+              <Welcome name = "Karen"/>
+              <Welcome name = "Ida"/>
+            </div>
+          }
+        }
+
+**  PROPS ************************************************************
+    * input/parameters that component can accept like different buttons
+    * makes your component reusable
+    * immutable object inside the compoenent - cannot be override
+
+**  STYLE ATTRIBUTE ************************************************
+    * accepts JS object with camelCase
+    Example:
+    class HomePage extends Component{
+      render(){
+        const style: React.CSSProperties = {
+          padding: '5px',
+          witdth: '500px',
+          textAlign: 'center'
+        };
+
+        return (
+          <div style={style}> Hello World </div>
+        );
+      }
+    };
+
+**  CLASS *************************************************************
+    * pass a string as the "className" props
+    * mose className depends on props/state to dynamically render UI
+    * generally better performance than INLINE STYLES (eg. caching of css files)
+    Example:
+    class HomePage extends Component{
+      render(){
+        <div className="hello-world-container" style={style}> Hello World </div>
+      }
+    }
+
+**  TYPESCRIPT PROPS
+    * To use typescript for props we can use INTERFACE
+    Example:
+    export interface HomePageProps{
+      name: string; //required
+      age?: number; //optional (?)
+    }
+
+    * Interface defines the schema of what properties an object can have.
+
+    * To define an optional property, add a suffix "?"
+
+    * Using Interface in Class Component ********************************
+    Example:
+    class HomePage extends Component<HomePageProps>{
+      render(){
+        return(
+          <div className="home-page-container"> Home Page </div>
+        );
+      }
+    };
+
+
+
+
+
+**  Passing Data to Components ***************************************
+    Example:
+
+    Initializing counter into value={counter.value} selected={true} and updating the state object. Note: by default it will set into true. (Ref - counters.jsx)
+
+        class Counters extends Component {
+          state = {
+            counters: [
+              { id: 1, value: 5 },
+              { id: 2, value: 4 },
+              { id: 3, value: 3 },
+              { id: 4, value: 2 },
+            ],
+          };
+          render() {
+            console.log("props", this.props);
+            return (
+              <div>
+                {this.state.counters.map((counter) => (
+                  <Counter key={counter.id} value={counter.value} />
+                ))}
+              </div>
+            );
+          }
+        }
+
+**  Debugging React Apps ******************************************************
+    1.) Go to Chrome React Components and the following can be performed:
+      $r
+      $r.render()
+    2.) For the button with onClick if working, select from Elements the tag with
+        button, note that at the end of the selection there is =$0. Check by typing:
+        $0.click() - notice that on the same from UI it changed.
+
+**  PROPS vs STATE **********************************************************
+    PROPS - includes data that we give to a Component. It is READ ONLY
+    STATE - includes data that is local or private to that Component.
+    Example (State)
+    value={counter.value} id={counter.id}
+
+    **  STATE
+        * Each compoenent can store its own local information in its "state"
+          * Privately and fully controlled by the compoenent
+          * Can be passed as props to children
+        * Only class componenrts can have local state
+
+        Example:
+        this.state = {
+          selectedDish: null
+        }
+
+        * to change above use setState()
+        this.setState({
+          selectedDish: dish
+        })
+        ----------------------------------------------------------
+    **  PROPS
+        JSX attributes are passed into a component as a single object
+        * Available the components as "PROPS"
+        * Can pass in multiple attributes
+        * Cannot modify PROPS within the component
+        ---------------------------------------------------------
+        Examples:
+        <Menu dishes = {this.state.dishes}/>
+        * dishes are available props within the Menu Component
+        * can be accessed as this.props.dishes
+
+        <Dishdetail dish = {this.state.dish} comments={this.state.comments}/>
+        * dish is available props within the Dishdetail Component
+        * can be accessed as this.props.dish
+        * can be accessed as this.props.comments
+
+**  RAISING & HANDLING EVENTS **********************************************
+    **  The component that OWNS a piece of the STATE, would be the one MODIFYING IT. So, instead of Adding Event within the COUNTER (where the button for Delete is), Event will be added in COUNTERS-counters:[] component via PROPS.
+
+    Example:
+    handleDelete() - will be raise in counters.jsx
+    onDelete - from Counter which will called.
+
+    //counters.jsx
+    **  Passing ref to handleDelete fn using props into child component
+        class Counters extends Component {
+          state = {
+            counters: [
+              { id: 1, value: 5 },
+              { id: 2, value: 4 },
+              { id: 3, value: 3 },
+              { id: 4, value: 2 },
+            ],
+          };
+          //passing ref to handleDelete fn using props into child component
+          handleDelete = (counterId) => {
+            const counters = this.state.counters.filter((c) => c.id !== counterId);
+            this.setState({ counters });
+          };
+
+          render() {
+              return (
+                <div>
+                  {this.state.counters.map((counter) => (
+                    <Counter
+                      key={counter.id}
+                      counter={counter}
+                      onDelete={this.handleDelete}
+                    />
+                  ))}
+                </div>
+              );
+            }
+
+    //counter.jsx
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)}
+          className='btn btn-danger btn-sm rounded-pill m-2'
+        >
+          Delete
+        </button>
+
+**  SINGLE SOURCE OF TRUTH **********************************************
+    **  Remove the Local State in our Counter Component
+        Counters -> counters[] (Single Source of Truth)
+        Counter -> value (Removing the value from Counter)
+
+        **  Controlled Component - doesn't have its own state. It receives all the data via Props and raises whenever data needs to be changed. This component is entirely controlled by its parent.
