@@ -14,13 +14,6 @@ class Movies extends Component {
     currentPage: 1,
   };
 
-  fStyle = {
-    paddingTop: 30,
-    fontWeight: 'bold',
-    fontSize: '2rem',
-    color: '#00ff00',
-  };
-
   //this will be called when an instance of this component is rendered in the DOM
   componentDidMount() {
     const genres = [{ name: 'All Genres' }, ...getGenres()];
@@ -51,9 +44,10 @@ class Movies extends Component {
       movies: allMovies,
     } = this.state;
 
-    const filtered = selectedGenre && selectedGenre._id
-      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-      : allMovies;
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
 
     const movies = paginate(filtered, currentPage, pageSize);
 
@@ -82,11 +76,18 @@ class Movies extends Component {
         </div>
 
         <div className='col'>
-          <p style={this.fStyle}>
+          <p
+            style={{
+              paddingTop: 30,
+              fontWeight: 'bold',
+              fontSize: '2rem',
+              color: '#00ff00',
+            }}
+          >
             Showing {filtered.length} movie/s in the database.
           </p>
 
-          <MoviesTable movies={movies} onDelete={this.handleDelete}/>
+          <MoviesTable movies={movies} onDelete={this.handleDelete} />
 
           <Pagination
             itemsCount={filtered.length}
